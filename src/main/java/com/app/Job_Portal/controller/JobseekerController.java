@@ -238,9 +238,10 @@ public class JobseekerController {
      * @GetMapping :  Annotation for mapping HTTP Get requests onto specific handler methods.
      */
 
-    @GetMapping("/upload/resume/{jobSeekerId}")
-    public ResponseEntity<String> uploadResume(@PathVariable Long jobSeekerId, @RequestParam MultipartFile resume) throws IOException {
-        return new ResponseEntity<String>(resumeService.uploadResume(resume, jobSeekerId), HttpStatus.OK);
+    @PostMapping("/upload/resume/")
+    public ResponseEntity<String> uploadResume(@RequestParam("resume") MultipartFile resume) throws IOException {
+        Long jobSeekerId = 1L;
+        return new ResponseEntity<String>(resumeService.uploadResume(resume,jobSeekerId), HttpStatus.OK);
     }
 
     /*

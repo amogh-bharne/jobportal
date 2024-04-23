@@ -34,18 +34,7 @@ public class SkillServiceImpl implements SkillService {
 			return allSkillsHolder;
 		}).collect(Collectors.toList());
 		
-		
-		/*return recruiters.stream().map((recruiter)->{
-			RecruiterDto recruiterHolder=mapper.map(recruiter,RecruiterDto.class);
-			
-			JobListDto jobList=mapper.map(recruiter.getJobListings(),JobListDto.class);
-			recruiterHolder.setJobListing(jobList);
-			return recruiterHolder;
-		}).collect(Collectors.toList());
-		 * 
-		 * 
-		 * 
-		 */
+
 		
 	}
 }

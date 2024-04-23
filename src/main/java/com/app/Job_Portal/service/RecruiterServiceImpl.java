@@ -221,14 +221,22 @@ public class RecruiterServiceImpl implements RecruiterService{
 	 public String updateProfile(RecruiterRequestDto recruiterDto, Long recuiterId)
 	 {
 		 
-		 Recruiter recruiter=recruiterRepository.findById(recuiterId).orElseThrow(()->new ResourceNotFoundException("job seeker with given id not found"));
-		 
-		 recruiter.setFirstName(recruiterDto.getFirstName());
-		 recruiter.setLastName(recruiterDto.getLastName());
-		 recruiter.setPhoneNo(recruiterDto.getPhoneNo());
-		 recruiter.setRecruiterBio(recruiterDto.getRecruiterBio());
-		 recruiter.setCompanyName(recruiterDto.getCompanyName());
-		 recruiterRepository.save(recruiter);
+
+
+				Recruiter recruiter = recruiterRepository.findById(recuiterId)
+			.orElseThrow(() -> new ResourceNotFoundException("Recruiter with the given ID not found"));
+
+		recruiter = Recruiter.builder()
+			.email(recruiter.getEmail()) // Retain the existing email
+			.firstName(recruiterDto.getFirstName())
+			.lastName(recruiterDto.getLastName())
+			.phoneNo(recruiterDto.getPhoneNo())
+			.recruiterBio(recruiterDto.getRecruiterBio())
+			.companyName(recruiterDto.getCompanyName())
+			.build();
+
+			recruiterRepository.save(recruiter);
+
 		 
 		 return "profile updated succefully !!!"; 
 	 }

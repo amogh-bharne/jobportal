@@ -42,25 +42,27 @@ public class SignUpServiceImpl implements SignUpService {
         ValidationRule.validationOfPhoneNumber(recruiterDto.getPhoneNo());
 
 
-        Recruiter newRecruiter = new Recruiter();
-
-        newRecruiter.setEmail(recruiterDto.getEmail());
-        newRecruiter.setFirstName(recruiterDto.getFirstName());
-        newRecruiter.setLastName(recruiterDto.getLastName());
-        newRecruiter.setRecruiterBio(recruiterDto.getRecruiterBio());
-        newRecruiter.setCompanyName(recruiterDto.getCompanyName());
-        newRecruiter.setPhoneNo(recruiterDto.getPhoneNo());
+        Recruiter newRecruiter = Recruiter.builder()
+    .email(recruiterDto.getEmail())
+    .firstName(recruiterDto.getFirstName())
+    .lastName(recruiterDto.getLastName())
+    .recruiterBio(recruiterDto.getRecruiterBio())
+    .companyName(recruiterDto.getCompanyName())
+    .phoneNo(recruiterDto.getPhoneNo())
+    .build();
 
         
         recruiterRepo.save(newRecruiter);
 
-        User newUser = new User();
 
-        newUser.setEmail(recruiterDto.getEmail());
         String cryptPassword=new BCryptPasswordEncoder().encode(recruiterDto.getPassword());
-        newUser.setPassword(cryptPassword);
-        newUser.setRecruiter(newRecruiter);
-        newUser.setRole(recruiterDto.getRole());
+
+        User newUser = User.builder()
+        .email(recruiterDto.getEmail())
+        .password(cryptPassword)
+        .recruiter(newRecruiter)
+        .role(recruiterDto.getRole())
+        .build();
         
         userRepo.save(newUser);
 

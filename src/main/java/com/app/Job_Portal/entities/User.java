@@ -1,5 +1,7 @@
 package com.app.Job_Portal.entities;
 
+
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,6 +13,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.Email;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,30 +23,29 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Table(name = "user")
 public class User {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "user_id", nullable = false)
-	private Long userId;
-	
-	@Email
-	@Column(unique = true)
-	private String email;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id", nullable = false)
+    private Long userId;
+    
+    @Email
+    @Column(unique = true)
+    private String email;
 
-	@Column(nullable = false)
-	// @JsonProperty(access = Access.WRITE_ONLY)
-	private String password;
-	
-	@Column(nullable = false)
-	private String role;
+    @Column(nullable = false)
+    private String password;
+    
+    @Column(nullable = false)
+    private String role;
 
-	@OneToOne
-	@JoinColumn(name = "jobSeeker_id")
-	private JobSeeker jobSeeker;
+    @OneToOne
+    @JoinColumn(name = "jobSeeker_id")
+    private JobSeeker jobSeeker;
 
-	@OneToOne
-	@JoinColumn(name = "recruiter_id")
-	private Recruiter recruiter;
-
+    @OneToOne
+    @JoinColumn(name = "recruiter_id")
+    private Recruiter recruiter;
 }

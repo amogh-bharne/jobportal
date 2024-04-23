@@ -15,6 +15,8 @@ import com.app.Job_Portal.exceptions.ResourceNotFoundException;
 import com.app.Job_Portal.repository.JobSeekerRepository;
 import com.app.Job_Portal.repository.ResumeRepository;
 
+import org.springframework.util.StringUtils;
+
 @Service
 public class ResumeServiceImpl implements ResumeService {
 
@@ -33,18 +35,18 @@ public class ResumeServiceImpl implements ResumeService {
             return "file is empty";
         }
 
-        long fileSize = file.getSize();
-        String originalFilename = file.getOriginalFilename();
+        //long fileSize = file.getSize();
+        //String originalFilename = StringUtils.cleanPath(file.getOriginalFilename());
 
-        if (originalFilename == null) {
-            return "file name cannot be empty";
-        }
+        // if (originalFilename == null) {
+        //     return "file name cannot be empty";
+        // }
 
-        String fileExtension = originalFilename.substring(originalFilename.lastIndexOf(".") + 1);
+        //String fileExtension = originalFilename.substring(originalFilename.lastIndexOf(".") + 1);
 
-        if (!fileExtension.equals("pdf")) {
-            return "please upload pdf only";
-        }
+        // if (!fileExtension.equals("pdf")) {
+        //     return "please upload pdf only";
+        // }
 
 //            if(fileSize <= 5_000_000 ) {
 //                return "please upload file upto 5mb";
