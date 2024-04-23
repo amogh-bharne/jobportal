@@ -7,13 +7,13 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.7.12</version>
-		<relativePath /> <!-- lookup parent from repository -->
+		<relativePath /> 
 	</parent>
 	<groupId>com.app.Job_Portal</groupId>
 	<artifactId>Job_Portal</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Job_Portal</name>
-	<description>Sprint Boot project on Online Job portal</description>
+	<description>Job Application System</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>
@@ -56,7 +56,6 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<!-- Swagger UI -->
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-ui</artifactId>

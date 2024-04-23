@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -34,7 +36,7 @@ import com.app.Job_Portal.service.ResumeService;
 
 @RestController
 @RequestMapping("/jobseeker")
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:3000")
 public class JobseekerController {
 
     @Autowired
@@ -222,6 +224,8 @@ public class JobseekerController {
      * @GetMapping :  Annotation for mapping HTTP Get requests onto specific handler methods.
      */
 
+
+  
     @GetMapping("/get-profile/resume/{jobSeekerId}")
     public void getResume(@PathVariable Long jobSeekerId, HttpServletResponse res) throws IOException {
         InputStream resource = resumeService.getResume(jobSeekerId);
@@ -238,9 +242,16 @@ public class JobseekerController {
      * @GetMapping :  Annotation for mapping HTTP Get requests onto specific handler methods.
      */
 
-    @PostMapping("/upload/resume/")
-    public ResponseEntity<String> uploadResume(@RequestParam("resume") MultipartFile resume) throws IOException {
-        Long jobSeekerId = 1L;
+
+       //  @PostMapping("/create-profile")
+    //  public ResponseEntity<String> createProfile(@RequestBody @Valid JobSeekerRequestDto seekerDto) {
+    //      return new ResponseEntity<String>(jobSeekerService.createProfile(seekerDto), HttpStatus.OK);
+    //  }
+    @PostMapping("/upload/resume/{jobSeekerId}")
+    public ResponseEntity<String> uploadResume(@PathVariable Long jobSeekerId,@RequestPart MultipartFile resume) throws IOException {
+        //Long jobSeekerId = 1L;
+        //log file name
+        System.out.println(resume.getOriginalFilename());
         return new ResponseEntity<String>(resumeService.uploadResume(resume,jobSeekerId), HttpStatus.OK);
     }
 
