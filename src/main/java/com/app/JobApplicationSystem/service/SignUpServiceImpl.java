@@ -1,16 +1,14 @@
 package com.app.JobApplicationSystem.service;
 
-import java.util.Optional;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.app.JobApplicationSystem.dto.JobSeekerRequestDto;
 import com.app.JobApplicationSystem.dto.JobseekerSignUpRequestDto;
 import com.app.JobApplicationSystem.dto.RecruiterSignUpDto;
-import com.app.JobApplicationSystem.entities.Admin;
 import com.app.JobApplicationSystem.entities.JobSeeker;
 import com.app.JobApplicationSystem.entities.Recruiter;
 import com.app.JobApplicationSystem.entities.User;

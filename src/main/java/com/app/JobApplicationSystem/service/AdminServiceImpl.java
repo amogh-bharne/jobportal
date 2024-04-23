@@ -9,11 +9,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.app.JobApplicationSystem.dto.EducationalDetailsDto;
+
 import com.app.JobApplicationSystem.dto.JobListDto;
 import com.app.JobApplicationSystem.dto.JobSeekerResponseDto;
 import com.app.JobApplicationSystem.dto.RecruiterDto;
-import com.app.JobApplicationSystem.dto.SkillDto;
 import com.app.JobApplicationSystem.entities.EducationalDetails;
 import com.app.JobApplicationSystem.entities.Job;
 import com.app.JobApplicationSystem.entities.JobApplication;
@@ -78,12 +77,12 @@ public class AdminServiceImpl implements AdminService {
 	public String deleteJobSeekerProfile(Long jobSeekerId)
 	{
 		JobSeeker jobSeeker=jobSeekerRepo.findById(jobSeekerId).orElseThrow(() -> new ResourceNotFoundException("job seeker with given id Doesn't exists"));
-		// for (EducationalDetails eduDetail : jobSeeker.getEduInfo()) {
-        //     eduDetail.setJobSeeker(null);
-        // }
-		// for (Skill skill : jobSeeker.getSkills()) {
-        //     skill.getJobSeekers().remove(jobSeeker);
-        // }
+		for (EducationalDetails eduDetail : jobSeeker.getEduInfo()) {
+            eduDetail.setJobSeeker(null);
+        }
+		for (Skill skill : jobSeeker.getSkills()) {
+            skill.getJobSeekers().remove(jobSeeker);
+        }
 		for (JobApplication jobApp : jobSeeker.getJobApplications()) {
             jobApp.setJobSeeker(null);
         }

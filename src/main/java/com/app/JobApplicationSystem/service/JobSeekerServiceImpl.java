@@ -283,16 +283,16 @@ System.out.println("req ss");
 
         JobSeeker persistedSeeker = persistedSeekerHolder.get();
 
-        // seekerDto.getSkills().forEach(skill -> {
-        //     Optional<Skill>  skillHolder = skillRepo.findBySkillId(skill.getSkillId());
-        //     skillHolder.ifPresent(value -> persistedSeeker.getSkills().add(value));
-        // });
+        seekerDto.getSkills().forEach(skill -> {
+            Optional<Skill>  skillHolder = skillRepo.findBySkillId(skill.getSkillId());
+            skillHolder.ifPresent(value -> persistedSeeker.getSkills().add(value));
+        });
 
-        // seekerDto.getEduInfo().forEach(edu -> {
-        //     EducationalDetails educationalDetailsHolder = mapper.map(edu, EducationalDetails.class);
-        //     educationalDetailsHolder.setJobSeeker(persistedSeeker);
-        //     persistedSeeker.getEduInfo().add(educationalDetailsHolder);
-        // });
+        seekerDto.getEduInfo().forEach(edu -> {
+            EducationalDetails educationalDetailsHolder = mapper.map(edu, EducationalDetails.class);
+            educationalDetailsHolder.setJobSeeker(persistedSeeker);
+            persistedSeeker.getEduInfo().add(educationalDetailsHolder);
+        });
 
 
         jobSeekerRepo.save(seekerProfile);
@@ -309,41 +309,41 @@ System.out.println("req ss");
         seeker.setLastName(seekerDto.getLastName());
         seeker.setYearOfExperience(seekerDto.getYearOfExperience());
         
-        // List<EducationalDetailsDto> educationalDetailsDtos = seekerDto.getEduInfo();
+        List<EducationalDetailsDto> educationalDetailsDtos = seekerDto.getEduInfo();
 
-        // educationalDetailsDtos.forEach((dto)-> {
-        //            if(dto.getPercentage()<0 || dto.getPercentage() > 100) {
-        //                throw new InvalidInputException("percentage should be in between 0 and 100");
-        //            }
-        //        });
+        educationalDetailsDtos.forEach((dto)-> {
+                   if(dto.getPercentage()<0 || dto.getPercentage() > 100) {
+                       throw new InvalidInputException("percentage should be in between 0 and 100");
+                   }
+               });
         
-        // List<SkillDto> skillDtosList = seekerDto.getSkills();
-        // List<Skill> skills = new ArrayList<>();
-        // for (SkillDto skillDto : skillDtosList) {
+        List<SkillDto> skillDtosList = seekerDto.getSkills();
+        List<Skill> skills = new ArrayList<>();
+        for (SkillDto skillDto : skillDtosList) {
 
-        //     if(skillRepo.findById(skillDto.getSkillId()).isPresent()) {
-        //         skills.add(skillRepo.findBySkillId(skillDto.getSkillId()).get());
-        //     }
+            if(skillRepo.findById(skillDto.getSkillId()).isPresent()) {
+                skills.add(skillRepo.findBySkillId(skillDto.getSkillId()).get());
+            }
 
-        // }
-        // seeker.setSkills(skills);
+        }
+        seeker.setSkills(skills);
 
-        // // Update educational details
-        // if (educationalDetailsDtos != null) {
+        // Update educational details
+        if (educationalDetailsDtos != null) {
 
-            // Clear previous educational details
-            // seeker.getEduInfo().clear();
+            //Clear previous educational details
+            seeker.getEduInfo().clear();
 
-        //     List<EducationalDetails> educationalDetails = educationalDetailsDtos.stream()
-        //             .map(dto -> {
-        //                 EducationalDetails seekerEducation = mapper.map(dto, EducationalDetails.class);
-        //                 seekerEducation.setJobSeeker(seeker);
-        //                 return seekerEducation;
-        //             })
-        //             .collect(Collectors.toList());
-        //     educationalDetailsRepo.saveAll(educationalDetails);
-        //     jobSeekerRepo.save(seeker);
-        // }
+            List<EducationalDetails> educationalDetails = educationalDetailsDtos.stream()
+                    .map(dto -> {
+                        EducationalDetails seekerEducation = mapper.map(dto, EducationalDetails.class);
+                        seekerEducation.setJobSeeker(seeker);
+                        return seekerEducation;
+                    })
+                    .collect(Collectors.toList());
+            educationalDetailsRepo.saveAll(educationalDetails);
+            jobSeekerRepo.save(seeker);
+        }
 
         return "profile updated succefully";
     }
@@ -351,12 +351,12 @@ System.out.println("req ss");
     @Override
     public String deleteProfile(Long jobSeekerId) {
         JobSeeker seeker = jobSeekerRepo.findById(jobSeekerId).orElseThrow(() -> new ResourceNotFoundException("job seeker with given id Doesn't exists"));
-        // for (EducationalDetails eduDetail : seeker.getEduInfo()) {
-        //     eduDetail.setJobSeeker(null);
-        // }
-        // for (Skill skill : seeker.getSkills()) {
-        //     skill.getJobSeekers().remove(seeker);
-        // }
+        for (EducationalDetails eduDetail : seeker.getEduInfo()) {
+            eduDetail.setJobSeeker(null);
+        }
+        for (Skill skill : seeker.getSkills()) {
+            skill.getJobSeekers().remove(seeker);
+        }
         for (JobApplication jobApp : seeker.getJobApplications()) {
             jobApp.setJobSeeker(null);
         }
@@ -377,12 +377,12 @@ System.out.println("req ss");
         JobSeekerResponseDto responseDto = mapper.map(seeker, JobSeekerResponseDto.class);
 
 
-        // seeker.getSkills().forEach(skill -> {
-        //     responseDto.setSkills(mapper.map(skill, SkillDto.class));
-        // });
-        // seeker.getEduInfo().forEach(edu -> {
-        //     responseDto.setEduInfo(mapper.map(edu, EducationalDetailsDto.class));
-        // });
+        seeker.getSkills().forEach(skill -> {
+            responseDto.setSkills(mapper.map(skill, SkillDto.class));
+        });
+        seeker.getEduInfo().forEach(edu -> {
+            responseDto.setEduInfo(mapper.map(edu, EducationalDetailsDto.class));
+        });
 
         return responseDto;
     }

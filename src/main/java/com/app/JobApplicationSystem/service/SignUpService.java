@@ -1,6 +1,5 @@
 package com.app.JobApplicationSystem.service;
 
-import com.app.JobApplicationSystem.dto.JobSeekerRequestDto;
 import com.app.JobApplicationSystem.dto.JobseekerSignUpRequestDto;
 import com.app.JobApplicationSystem.dto.RecruiterSignUpDto;
 
