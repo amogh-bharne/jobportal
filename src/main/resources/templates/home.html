@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="../static/css/Home.css">
+    <link rel="stylesheet" href="../static/to/Navbar.css">
+</head>
+<body>
+    <nav class="navBar">
+        <img class="logo" src="../static/Screenshot (70).png " alt="logo" />
+        <ul class="navList">
+            <li class="navItems" th:classappend="${#httpServletRequest.getRequestURI() == '/' ? 'active' : ''}">
+                <a th:href="@{/}">Home</a>
+            </li>
+            <li class="navItems" th:classappend="${#httpServletRequest.getRequestURI() == '/jobList' ? 'active' : ''}">
+                <a th:href="@{/jobList}">Jobs</a>
+            </li>
+            <li class="navItems" th:classappend="${#httpServletRequest.getRequestURI() == '/signup' ? 'active' : ''}">
+                <a th:href="@{/signup}">Register</a>
+            </li>
+            <li class="navItems" th:classappend="${#httpServletRequest.getRequestURI() == '/signin' ? 'active' : ''}">
+                <a class="navItems signout_btn" th:href="@{/signin}">Login</a>
+            </li>
+        </ul>
+    </nav>
+
+    <div>
+        <header class="banner">
+            <div class="leftBannerSide">
+                <h1>Find the perfect Job for you.</h1>
+                <br />
+                <p>Search for jobs, apply and be successful.</p>
+            </div>
+            <div class="rightBannerSide">
+                <img th:src="@{/img/intro.png}" alt="" srcset="" />
+            </div>
+        </header>
+    </div>
+
+</body>
+</html>

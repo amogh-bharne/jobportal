@@ -48,9 +48,6 @@ public class GlobalExceptionHandler {
 	        return ResponseEntity.badRequest().body(errorMessage);
 	    }
 	
-	
-	// method level anno to tell SC , following is an exc handling method : to
-	// handle : ResourceNotFoundException
 	@ExceptionHandler(ResourceNotFoundException.class)
 	@ResponseStatus(value = HttpStatus.NOT_FOUND)
 	public ApiResponse handleResourceNotFoundException(ResourceNotFoundException e) {
@@ -58,8 +55,6 @@ public class GlobalExceptionHandler {
 		return new ApiResponse(e.getMessage());
 	}
 
-	// method level anno to tell SC , following is an exc handling method : to
-	// handle any other remaining exc => catch all
 	@ExceptionHandler(RuntimeException.class)
 	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
 	public ApiResponse handleAnyException(RuntimeException e) {

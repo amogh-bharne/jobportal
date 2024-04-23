@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="../static/css/SignUp.css">
+</head>
+<body>
+    <div class="signup_container">
+        <div class="signup_form">
+            <h2 class="signup_heading">Sign Up</h2>
+            <div class="signup_form-group">
+                <label for="signup_category">Select Category:</label>
+                <select id="signup_category" name="signup_category" class="signup_select" th:value="${selectedCategory}" onchange="fetchComponent(this.value)">
+                    <option value="jobseeker">Job Seeker</option>
+                    <option value="recruiter">Recruiter</option>
+                </select>
+            </div>
+            <div id="signupContent" th:insert="${selectedCategory == 'jobseeker' ? 'JobSeekerSignUp' : 'RecruiterSignUp'} :: signupForm"></div>
+        </div>
+    </div>
+
+    <script th:inline="javascript">
+        function fetchComponent(selectedCategory) {
+            var url = selectedCategory === 'jobseeker' ? '@{/jobSeekerSignUp}' : '@{/recruiterSignUp}';
+            var signupContent = document.getElementById('signupContent');
+            signupContent.innerHTML = ''; // Clear previous content
+            fetch(url)
+                .then(response => response.text())
+                .then(data => {
+                    signupContent.innerHTML = data;
+                })
+                .catch(error => console.error('Error fetching component:', error));
+        }
+    </script>
+</body>
+</html>

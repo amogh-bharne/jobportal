@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recruiter Sign Up</title>
+</head>
+<body>
+    <div>
+        <form th:action="@{/signup/newRegistration}" method="post">
+            <div class="signup_form-group">
+                <label for="firstName">First Name:</label>
+                <input type="text" id="firstName" name="firstName" th:value="${formData.firstName}" required class="signup_input" />
+                <span th:if="${isFormValid} and ${errors.firstName}" class="error-message" th:text="${errors.firstName}"></span>
+            </div>
+
+            <button type="submit" class="signup_button">Sign Up</button>
+        </form>
+        <div th:if="${isFormValid}">
+            <div class="error" th:if="${#fields.hasErrors('formData')}"></div>
+        </div>
+    </div>
+</body>
+</html>
