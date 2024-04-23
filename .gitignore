@@ -31,4 +31,4 @@ build/
 
 ### VS Code ###
 .vscode/
-/src/main/java/com/app/Job_Portal/fileHandling/
+/src/main/java/com/app/JobApplicationSystem/fileHandling/

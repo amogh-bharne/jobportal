@@ -9,10 +9,10 @@
 		<version>2.7.12</version>
 		<relativePath /> 
 	</parent>
-	<groupId>com.app.Job_Portal</groupId>
-	<artifactId>Job_Portal</artifactId>
+	<groupId>com.app.JobApplicationSystem</groupId>
+	<artifactId>JobApplicationSystem</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Job_Portal</name>
+	<name>JobApplicationSystem</name>
 	<description>Job Application System</description>
 	<properties>
 		<java.version>17</java.version>
