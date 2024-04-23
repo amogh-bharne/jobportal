@@ -15,7 +15,6 @@ public class AdminSingleton {
 
     public static synchronized Admin getInstance() {
         if (instance == null) {
-            // Create a new Admin instance only if it hasn't been created yet
             String email = "amogh@gmail.com";
             String fname = "amogh";
             String lname = "bharne";
