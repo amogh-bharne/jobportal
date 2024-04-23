@@ -6,4 +6,6 @@ import com.app.Job_Portal.entities.Admin;
 
 public interface AdminRepository extends JpaRepository<Admin, Long> {
 
+
+
 }

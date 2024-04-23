@@ -12,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.app.Job_Portal.entities.Admin;
 import com.app.Job_Portal.entities.User;
 import com.app.Job_Portal.repository.AdminRepository;
+import com.app.Job_Portal.Singleton.AdminSingleton;
 import com.app.Job_Portal.repository.UserRepository;
 
 @SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
@@ -32,12 +33,15 @@ public class JobPortalApplication {
 	@Bean
 	CommandLineRunner run(AdminRepository adminRepo, UserRepository userRepo) {
 		return args -> {
-			System.out.println("this code is running");
+			System.out.println("Starting Job Application system...");
 
-			if(!adminRepo.findById((long)1).isPresent()) {
-				String cryptPassword=new BCryptPasswordEncoder().encode("12345");
-				Admin admin = new Admin((long)1, "amogh@gmail.com","amogh","bharne",cryptPassword);
-				Admin persistedAdmin = adminRepo.save(admin);
+			User existingAdmin = userRepo.findByRole("ROLE_ADMIN");
+
+			if(existingAdmin == null) {
+
+				Admin admin = AdminSingleton.getInstance();
+
+				adminRepo.save(admin);
 
 				User user = new User();
 				user.setEmail(admin.getEmail());
