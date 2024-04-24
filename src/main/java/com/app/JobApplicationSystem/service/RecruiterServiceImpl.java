@@ -65,7 +65,7 @@ public class RecruiterServiceImpl implements RecruiterService{
 				recruiter.getJobListings().forEach(job->{
 					JobListDto newJob=mapper.map(job, JobListDto.class);
 					newJob.setRecruiterName(recruiter.getFirstName()+" "+recruiter.getLastName());
-					//set all skills to newJob skills using custome query
+					
 					List<String> skillsDtos=skillRepository.findSkillNamesByJobId(job.getJobId());
 					newJob.setSkillsForJob_strings(skillsDtos);
 					jobList.add(newJob);
@@ -80,18 +80,18 @@ public class RecruiterServiceImpl implements RecruiterService{
 	public Map<String, Object> deleteJobByRecruiter(Long jobId, Long recruiterId) {
 	    Map<String, Object> response = new HashMap<>();
 
-	    // Check if the job exists
+	    
 	    Job job = jobRepo.findById(jobId)
 	            .orElseThrow(() -> new ResourceNotFoundException("Job not found with ID: " + jobId));
 
-	    // Check if the job was posted by the specified recruiter
+	    
 	    if (!job.getPostedBy().getRecruiterId().equals(recruiterId)) {
 	        response.put("success", false);
 	        response.put("message", "Job not found or not posted by the specified recruiter.");
 	        return response;
 	    }
 
-	    // Delete the job
+	    
 	    jobRepo.delete(job);
 
 	    response.put("success", true);
@@ -105,7 +105,7 @@ public class RecruiterServiceImpl implements RecruiterService{
 		
 		
 		Job job = mapper.map(postJobRequestDto, Job.class);
-		// checking recruiter present or not also skills list is not empty
+		
 		if (recruiterRepository.existsById(postJobRequestDto.getRecruiterId())
 				&& postJobRequestDto.getSkillIds() != null && !postJobRequestDto.getSkillIds().isEmpty()) {
 			job.setPostedBy(recruiterRepository.findById(postJobRequestDto.getRecruiterId()).orElseThrow(null));
@@ -123,7 +123,7 @@ public class RecruiterServiceImpl implements RecruiterService{
 	    Job job = jobRepo.findById(jobId)
 	            .orElseThrow(() -> new ResourceNotFoundException("Job not found with ID: " + jobId));
 
-	    // Check if the job was posted by the specified recruiter
+	    
 	    if (!job.getPostedBy().getRecruiterId().equals(recruiterId)) {
 	        return "Job not updated. It was not posted by the specified recruiter.";
 	    }
@@ -151,7 +151,7 @@ public class RecruiterServiceImpl implements RecruiterService{
 	    Job job = jobRepo.findById(jobId)
 	            .orElseThrow(() -> new ResourceNotFoundException("Job not found with ID: " + jobId));
 
-	    // Check if the job was posted by the specified recruiter
+	    
 	    if (!job.getPostedBy().getRecruiterId().equals(recruiterId)) {
 	        return "Job application status not updated. Job was not posted by the specified recruiter.";
 	    }
@@ -172,14 +172,14 @@ public class RecruiterServiceImpl implements RecruiterService{
 	}
 
 	 public List<JobApplicationsListDto> getListOfJobApplications(Long jobId, Long loggedInRecruiterId) {
-	        // To save the result and return
+	        
 	        List<JobApplicationsListDto> jobAppListDto = new ArrayList<>();
 	        
-	        // Taking the job for which the list of applications is being fetched
+	        
 	        Job job = jobRepo.findById(jobId)
 	                .orElseThrow(() -> new ResourceNotFoundException("Job not found with ID: " + jobId));
 	        
-	        // Check if the logged-in recruiter has access to the job
+	        
 	        if (!loggedInRecruiterId.equals(job.getPostedBy().getRecruiterId())) {
 	            throw new ResourceNotFoundException("You are not authorized to view job applications for this job.");
 	        }
@@ -187,22 +187,22 @@ public class RecruiterServiceImpl implements RecruiterService{
 	        List<JobApplication> listOfApplications = job.getApplications();
 	        
 	        listOfApplications.forEach(jobApp -> {
-	            // Mapping attributes
+	            
 	            JobApplicationsListDto dto = mapper.map(jobApp, JobApplicationsListDto.class);
 	            dto.setJobSeekerId(jobApp.getJobSeeker().getJobSeekerId());
 	            dto.setFirstName(jobApp.getJobSeeker().getFirstName());
 	            dto.setLastName(jobApp.getJobSeeker().getLastName());
-	            // code for getting resume of jobseeker and seeting to jobapplicationdto dto using jobseekerId
+	            
 	            
 	            Long jobSeekerId = jobApp.getJobSeeker().getJobSeekerId();
 	            
-	            // Fetch skills using skillRepository's custom query method
+	            
 	            List<Skill> jobSeekerSkills = skillRepository.findAllSkillsByJobSeekerId(jobSeekerId);
 
-	            // Create a list to hold SkillDto instances
+	            
 	            List<SkillDto> skillDtos = new ArrayList<>();
 
-	            // Convert Skill entities to SkillDto instances
+	            
 	            for (Skill skill : jobSeekerSkills) {
 	                SkillDto skillDto = new SkillDto(skill.getSkillId(), skill.getName(), skill.getDescription());
 	                skillDtos.add(skillDto);
@@ -247,35 +247,35 @@ public class RecruiterServiceImpl implements RecruiterService{
 	 
 	 }
 	 
-	 //get All Recruiters for admin contoller
+	 
 	 @Override
 	 public List<RecruiterDto> getAllRecruiters(Pageable pageable) {
 		    
-		    // Get a Page object of recruiters from the recruiterRepository repository.
+		    
 		     
 		    Page<Recruiter> recruiters = recruiterRepository.findAll(pageable);
 
-		    //Create a List object to hold the RecruiterDto objects.
+		    
 		     
 		    List<RecruiterDto> recruiterDtos = new ArrayList<>();
 
-		    //Iterate over the contents of the Page object and create a RecruiterDto object for each recruiter.
+		    
 		     
 		    for (Recruiter recruiter : recruiters.getContent()) {
-		        // Create a RecruiterDto object using the mapper object.
+		        
 		         
 		        RecruiterDto recruiterHolder = mapper.map(recruiter, RecruiterDto.class);
 
-		        //Set the jobListing property of the RecruiterDto object to the JobListDto object that is created from the recruiter's jobListings property.
+		        
 		         
 		        JobListDto jobList = mapper.map(recruiter.getJobListings(), JobListDto.class);
 		        recruiterHolder.setJobListing(jobList);
 
-		        //Add the RecruiterDto object to the List object.
+		        
 		         
 		        recruiterDtos.add(recruiterHolder);
 		    }
-		    //Return the List object.
+		    
 		     
 		    return recruiterDtos;
 		}
