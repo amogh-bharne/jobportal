@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Controller</title>
+    <link rel="stylesheet" href="path/to/Admin.css">
+</head>
+<body>
+    <div class="headerAdmin">
+        <h1>Admin Controller</h1>
+    </div>
+
+    <div class="optionsAdmin">
+        <div th:class="${isActive ? 'border-bottom' : 'none'}">
+            <button class="optionAdmin" th:onclick="|window.location='@{/admin/jobseeker}'|">JobSeeker</button>
+        </div>
+        <div th:class="${!isActive ? 'border-bottom' : 'none'}">
+            <button class="optionAdmin" th:onclick="|window.location='@{/admin/recruiter}'|">Recruiter</button>
+        </div>
+    </div>
+    
+    <div th:if="${showRecruiters}">
+        <table class="tableAdmin">
+            <thead>
+                <tr>
+                    <th>RecruiterId</th>
+                    <th>FirstName</th>
+                    <th>LastName</th>
+                    <th>Email</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="recruiter : ${recruiters}">
+                    <td th:text="${recruiter.recruiterId}"></td>
+                    <td th:text="${recruiter.firstName}"></td>
+                    <td th:text="${recruiter.lastName}"></td>
+                    <td th:text="${recruiter.email}"></td>
+                    <td>
+                        <button class="delete-buttonAdmin" th:onclick="'|window.location='@{/admin/remove-recruiter-profile/}' + ${recruiter.recruiterId}'|'">Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div th:unless="${showRecruiters}">
+        <!-- Render AdminJobseeker component -->
+    </div>
+</body>
+</html>

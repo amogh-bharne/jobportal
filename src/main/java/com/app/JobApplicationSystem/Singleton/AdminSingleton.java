@@ -21,6 +21,8 @@ public class AdminSingleton {
             String lname = "bharne";
             String password = passwordEncoder.encode("123450");
 
+            
+
             String encryptedPassword = passwordEncoder.encode(password);
             instance = new Admin((long)1, email,fname, lname, encryptedPassword );
         }

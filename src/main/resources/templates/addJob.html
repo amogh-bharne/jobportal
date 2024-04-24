@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Job</title>
+    <link rel="stylesheet" href="path/to/AddJob.css">
+</head>
+<body>
+    <div>
+        <div class="AddJobcontainer">
+            <h1>Add Job</h1>
+            <form id="jobForm" th:action="@{/recruiters/postJob}" method="post">
+                <label for="jobTitle">Job Title:</label>
+                <input type="text" id="jobTitle" name="jobTitle" th:value="${jobTitle}" required />
+
+                <label for="jobDescription">Job Description:</label>
+                <textarea class="jobDescription" id="jobDescription" name="jobDescription" th:value="${jobDescription}" required></textarea>
+
+                <label for="deadlineDate">Deadline Date:</label>
+                <input type="date" id="deadlineDate" name="deadlineDate" th:value="${deadlineDate}" required />
+
+                <label for="noOfJobPositions">Number of Job Positions:</label>
+                <input type="number" id="noOfJobPositions" name="noOfJobPositions" th:value="${noOfJobPositions}" required />
+
+                <label for="salary">Salary:</label>
+                <input type="number" id="salary" name="salary" th:value="${salary}" required />
+
+                <label for="jobType">Job Type:</label>
+                <select id="jobType" name="jobType" th:value="${jobType}">
+                    <option value="PART_TIME">Part Time</option>
+                    <option value="FULL_TIME">Full Time</option>
+                </select>
+
+                <label class="skillTag" for="skills">Skills:</label><br />
+                <select class="multiskills" multiple id="skills" name="skills" th:value="${selectedSkills}" onchange="handleSkillChange(this)">
+                    <option th:each="skill : ${skills}" th:value="${skill.name}" th:text="${skill.name}"></option>
+                </select>
+
+                <button type="button" class="addskillbtn" onclick="handleAddSkill()">Add Skill</button>
+
+                <div class="listedSkills">
+                    <p>Selected Skills:</p>
+                    <ul>
+                        <li th:each="skill : ${selectedSkillsList}" th:text="${skill}">
+                            <span class="selected-skill">
+                                <span class="remove-skill" onclick="handleRemoveSkill(this.textContent)">&#8722;</span>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+
+                <button class="addJobSumitBtn" type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <script th:inline="javascript">
+        function handleSkillChange(select) {
+            var selectedOptions = select.selectedOptions;
+            var selectedSkillsArray = [];
+            for (var i = 0; i < selectedOptions.length; i++) {
+                selectedSkillsArray.push(selectedOptions[i].value);
+            }
+            select.setAttribute("th:value", "${selectedSkills}");
+            select.setAttribute("value", selectedSkillsArray);
+        }
+
+        function handleAddSkill() {
+            var skillsSelect = document.getElementById("skills");
+            var selectedOptions = skillsSelect.selectedOptions;
+            var selectedSkillsArray = [];
+            for (var i = 0; i < selectedOptions.length; i++) {
+                selectedSkillsArray.push(selectedOptions[i].value);
+            }
+            selectedSkillsArray.forEach(function(skill) {
+                var newOption = document.createElement("option");
+                newOption.value = skill;
+                newOption.text = skill;
+                document.getElementById("skills").appendChild(newOption);
+            });
+        }
+
+        function handleRemoveSkill(skillToRemove) {
+            var skillsSelect = document.getElementById("skills");
+            var options = skillsSelect.options;
+            for (var i = 0; i < options.length; i++) {
+                if (options[i].value === skillToRemove) {
+                    skillsSelect.remove(i);
+                    break;
+                }
+            }
+        }
+    </script>
+</body>
+</html>

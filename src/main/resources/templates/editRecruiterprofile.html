@@ -1,0 +1,36 @@
+<div th:fragment="editRecruiterProfile">
+    <div class="profile-container">
+        <div class="profile-header">
+            <button class="back-button" onclick="window.location='/RecruiterProfile'">Back</button>
+            <h1 class="profile-name" th:text="${profileData.firstName + ' ' + profileData.lastName}"></h1>
+            <p class="profile-company" th:text="${profileData.companyName}"></p>
+        </div>
+        <div class="profile-details">
+            <form action="#" method="post" th:action="@{/recruiters/update-profile/{id}(id=${user.recruiterId})}">
+                <div class="field">
+                    <span class="field-label">First Name:</span>
+                    <input type="text" name="firstName" th:value="${profileData.firstName}" class="input-field" />
+                </div>
+                <div class="field">
+                    <span class="field-label">Last Name:</span>
+                    <input type="text" name="lastName" th:value="${profileData.lastName}" class="input-field" />
+                </div>
+                <div class="field">
+                    <span class="field-label">Phone Number:</span>
+                    <input type="text" name="phoneNo" th:value="${profileData.phoneNo}" class="input-field" />
+                </div>
+                <div class="field">
+                    <span class="field-label">Recruiter Bio:</span>
+                    <textarea name="recruiterBio" th:text="${profileData.recruiterBio}" class="textarea-field"></textarea>
+                </div>
+                <div class="field">
+                    <span class="field-label">Company Name:</span>
+                    <input type="text" name="companyName" th:value="${profileData.companyName}" class="input-field" readonly />
+                </div>
+                <div class="submit-button-container">
+                    <button type="submit" class="submit-button">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

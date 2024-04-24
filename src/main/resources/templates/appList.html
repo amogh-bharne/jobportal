@@ -1,0 +1,21 @@
+<div th:fragment="applicationList">
+    <div class="applicationList-container">
+        <h2>Your Job Applications</h2>
+
+        <div th:each="job : ${appliedJobs}" class="applicationList-application">
+            <h3 th:text="${job.jobTitle}"></h3>
+            <div class="applicationList-application-info">
+                <p th:text="'Company: ' + ${job.companyName}"></p>
+                <p th:text="${job.jobDescription}"></p>
+                <p class="applicationList-salary" th:text="'Salary: ' + ${job.salary} + '/year'"></p>
+            </div>
+            <div class="applicationList-application-info">
+                <p th:text="'Position: ' + ${job.jobType}"></p>
+                <p class="applicationList-date" th:text="'Application Date: ' + ${job.appliedDate}"></p>
+                <p th:text="${job.postedBy}"></p>
+            </div>
+            <button class="applicationList-rm-application-btn" th:onclick="'|window.location='@{/jobseeker/withdraw-application/' + ${job.jobId} + '/' + ${jobSeekerId} + '|'">Remove Application</button>
+        </div>
+
+    </div>
+</div>

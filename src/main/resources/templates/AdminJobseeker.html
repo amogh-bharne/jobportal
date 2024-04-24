@@ -1,0 +1,24 @@
+<div>
+    <table class="tableAdmin">
+        <thead>
+            <tr>
+                <th>JobSeekerId</th>
+                <th>FirstName</th>
+                <th>LastName</th>
+                <th>Email</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="jobSeeker : ${JobSeekers}">
+                <td th:text="${jobSeeker.jobSeekerId}"></td>
+                <td th:text="${jobSeeker.firstName}"></td>
+                <td th:text="${jobSeeker.lastName}"></td>
+                <td th:text="${jobSeeker.email}"></td>
+                <td>
+                    <button class="delete-buttonAdmin" th:onclick="'|window.location='@{/admin/remove-jobseeker-profile/}' + ${jobSeeker.jobSeekerId}'|'">Delete</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
